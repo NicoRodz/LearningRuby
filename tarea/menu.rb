@@ -30,14 +30,50 @@ class Menu
   end
 
   def show_users()
+    unless @portfolio.check_user_file()
+      puts "there are no users yet..."
+      sleep(1)
+      show_init_menu()
+    end
     @portfolio.see_all_users()
     puts "Enter number of your user: "
     user_index = gets().chomp
     menu_user(user_index)
   end
 
+  def will_see_portfolio(user_index)
+    system "clear"
+    puts "--------Portfolio Menu---------"
+    puts "0: to back"
+    puts "1: See annualized return"
+    puts "2: See return between two dates"
+    puts "--------------------------------"
+    portfolio_select = gets().chomp.to_i
+    case portfolio_select
+    when 0
+      menu_user(user_index)
+    when 1
+      show_annualized_return(user_index)
+    when 2
+      puts "Enter first date to see: (yyyy-mm)"
+      first_date = gets().chomp.to_s
+      puts "Enter last date to see: (yyyy-mm)"
+      last_date = gets().chomp.to_s
+      @portfolio.see_portfolio(first_date: first_date.to_s, last_date: last_date.to_s)
+      puts "Press enter to exit"
+      gets()
+    else
+      puts "Please enter valid number"
+    end
+  end
+
   def menu_user(user_index)
     @portfolio.get_user_name(user_index)
+    if @portfolio.index != user_index
+      puts "this user not exist, enter valid id..."
+      sleep(2)
+      show_users()
+    end
     in_menu = 1
     while in_menu != 0
       system "clear"
@@ -47,25 +83,25 @@ class Menu
       puts "2: To create Profit"
       in_menu = gets().chomp.to_i
       case in_menu
-      when 0
-        puts "Adios :)!"
-        sleep(1)
-      when 1
-        puts "Enter first date to see: (yyyy-mm-dd)"
-        first_date = gets().chomp.to_s
-        puts "Enter last date to see: (yyyy-mm-dd)"
-        last_date = gets().chomp.to_s
-        @portfolio.see_portfolio(first_date: first_date.to_s, last_date: last_date.to_s)
-        sleep(2)
-      when 2
-        @portfolio.create_new_portfolio()
-        sleep(2)
-      else
-        puts "Enter valid number Please.."
-        sleep(2)
+        when 0
+          puts "GoodBye! :)!"
+          sleep(1)
+        when 1
+          unless @portfolio.check_portfolio_exist()
+            puts "Create Portfolio first please..."
+            sleep(1)
+            menu_user(user_index)
+          end
+          will_see_portfolio(user_index)
+          sleep(2)
+        when 2
+          @portfolio.create_new_portfolio()
+          sleep(4)
+        else
+          puts "Enter valid number Please.."
+          sleep(2)
       end
     end
     show_init_menu() ##return back to the main menu
   end
-
 end

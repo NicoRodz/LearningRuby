@@ -1,7 +1,13 @@
 require "time"
 
 class User
-  @name
+  attr_accessor :name
+  attr_accessor :index
+
+  def initialize()
+    self.name
+    self.index
+  end
 
   def create_new_user(name)
     f = File.new("data/users.txt", 'a')
@@ -10,9 +16,27 @@ class User
   end
 
   def see_all_users()
-    f = File.read("data/users.txt", 'r')
-    puts f
+    f = File.new("data/users.txt", 'r')
+    system "clear"
+    puts "---- Users ---"
+    f.readlines.each_with_index do |line, index|
+      puts "#{index}: #{line}"
+    end
+    puts "--------------"
     f.close
+  end
+
+  def get_user_name(user_index)
+    f = File.new("data/users.txt", 'r')
+    f.readlines.each_with_index do |line, index|
+      if index.to_i == user_index.to_i then self.name = line end
+    end
+    self.index = user_index
+    f.close
+  end
+
+  def handle_user(num_user)
+
   end
 end
 

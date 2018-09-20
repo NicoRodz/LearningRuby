@@ -85,6 +85,30 @@ class Portfolio < User
     puts ""
   end
 
+  def show_annualized_return()
+    f = File.new("data/#{self.name}.txt", 'r')
+    data = JSON.parse(f.read)
+    first_month = "01"
+    last_month = "12"
+    first_value = 0
+    last_value = 0
+    system "clear"
+    puts "-.Portfolio for annualized return.-"
+    puts ""
+    data.each do |path, investment|
+      month_to_see = path.split("-")[1]
+      if month_to_see.to_i == first_month.to_i then first_value = investment end
+      if month_to_see.to_i == last_month.to_i then last_value = investment end
+      if month_to_see.to_i >= first_month.to_i && month_to_see.to_i <= last_month.to_i
+        puts "In month #{month_to_see} have #{investment} capital"
+      end
+    end
+    puts ""
+    puts "You won in this period $#{last_value - first_value}"
+    puts "In percentaje of grow: #{((last_value * 100) / first_value) - 100}%"
+    puts ""
+  end
+
   def check_portfolio_exist()
     unless File.exist?("data/#{self.name}.txt") #si existe
       return false

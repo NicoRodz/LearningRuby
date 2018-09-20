@@ -11,7 +11,10 @@ class Menu
   def show_init_menu()
     system "clear"
     puts "Welcome to Fintonic Portfolio"
-    puts "Press 0 if you have an User, 1 for new User"
+    puts "0: If you have an user"
+    puts "1: For new User"
+    puts "2: To see Stocks"
+    # TODO: Modificar y agergar el tema de las divisas
     if gets().chomp.to_i == 1
       create_new_user()
     else
@@ -53,7 +56,9 @@ class Menu
     when 0
       menu_user(user_index)
     when 1
-      show_annualized_return(user_index)
+      @portfolio.show_annualized_return()
+      puts "Press enter to exit"
+      gets()
     when 2
       puts "Enter first date to see: (yyyy-mm)"
       first_date = gets().chomp.to_s

@@ -55,10 +55,11 @@ class Menu
         first_date = gets().chomp.to_s
         puts "Enter last date to see: (yyyy-mm-dd)"
         last_date = gets().chomp.to_s
-        @portfolio.see_profit(first_date: first_date.to_s, last_date: last_date.to_s)
+        @portfolio.see_portfolio(first_date: first_date.to_s, last_date: last_date.to_s)
         sleep(2)
       when 2
-        @portfolio.create_portfolio()
+        @portfolio.create_new_portfolio()
+        sleep(2)
       else
         puts "Enter valid number Please.."
         sleep(2)

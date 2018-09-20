@@ -1,4 +1,6 @@
 require "time"
+require "fileutils"
+# puts Time.new(2002, 10, 30)
 
 class User
   attr_accessor :name
@@ -39,43 +41,51 @@ end
 
 class Portfolio < User
 
-  def see_profit(first_date: "", last_date: "")
+  def see_portfolio(first_date: "", last_date: "")
     if first_date == "" then first_date = "2018-01-01" end
     if last_date == "" then last_date = "2018-12-30" end
-    if check_profit_exist() then show_profit() else puts "Profit don`t exist" end
+    if check_portfolio_exist() then show_portfolio() else puts "Profit don`t exist" end
   end
 
-  def check_profit_exist()
+  def check_portfolio_exist()
     unless File.exist?("data/#{self.name}.txt") #si existe
-      # FileUtils.touch("./data/#{user_name}.txt")
       return false
     end
     return true
   end
 
-  def show_profit()
+  def show_portfolio()
     puts "lets show profit"
   end
 
-  # def get_data
-  #   @portfolio = {}
-  #   (0..12).each do |month|
-  #     (0..30).each do |day|
-  #       date = "2018-#{month}-#{day}"
-  #       cost = rand(100)
-  #       contrib = rand(100)
-  #       @portfolio[date] = {
-  #         cost: cost,
-  #         price: cost + rand(10),
-  #         margen_gain: contrib - cost, #pasar a porcentaje
-  #         contrib: contrib
-  #       }
-  #     end
-  #   end
-  #   puts @portfolio
-  # end
+  def create_new_portfolio()
+    unless File.exist?("data/#{self.name}.txt") #si existe
+      FileUtils.touch("./data/#{self.name}.txt")
+      set_fake_data()
+      puts "Portfolio for #{self.name} created with fake 'random' data."
+      return true
+    end
+    puts "Portfolio Exist... you can see the data in option 1"
+    return false
+  end
+
+  def set_fake_data
+    @portfolio = {}
+    (0..12).each do |month|
+      (0..30).each do |day|
+        date = "2018-#{month}-#{day}"
+        cost = rand(100)
+        contrib = rand(100)
+        @portfolio[date] = {
+          cost: cost,
+          price: cost + rand(10),
+          margen_gain: contrib - cost, #pasar a porcentaje
+          contrib: contrib
+        }
+      end
+    end
+    f = File.new("data/#{self.name}.txt", 'w')
+    f.write(@portfolio)
+    f.close
+  end
 end
-
-
-
-# puts Time.new(2002, 10, 30)

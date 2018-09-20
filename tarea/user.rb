@@ -5,8 +5,8 @@ class User
   attr_accessor :index
 
   def initialize()
-    self.name
-    self.index
+    @name
+    @index
   end
 
   def create_new_user(name)
@@ -29,48 +29,51 @@ class User
   def get_user_name(user_index)
     f = File.new("data/users.txt", 'r')
     f.readlines.each_with_index do |line, index|
-      if index.to_i == user_index.to_i then self.name = line end
+      if index.to_i == user_index.to_i then @name = line end
     end
-    self.index = user_index
+    @index = user_index
     f.close
-  end
-
-  def handle_user(num_user)
-
   end
 end
 
 
 class Portfolio < User
-  attr_accessor :stocks
 
-  def initialize()
-    @portfolio
-    @portfolio = self.get_data
-    # puts @portfolio
+  def see_profit(first_date: "", last_date: "")
+    if first_date == "" then first_date = "2018-01-01" end
+    if last_date == "" then last_date = "2018-12-30" end
+    if check_profit_exist() then show_profit() else puts "Profit don`t exist" end
   end
 
-  def profit(date1, date2) #ganancia
-    puts "profit completo"
-  end
-
-  def get_data
-    @portfolio = {}
-    (0..12).each do |month|
-      (0..30).each do |day|
-        date = "2018-#{month}-#{day}"
-        cost = rand(100)
-        contrib = rand(100)
-        @portfolio[date] = {
-          cost: cost,
-          margen_gain: contrib - cost, #pasar a porcentaje
-          contrib: contrib
-        }
-      end
+  def check_profit_exist()
+    unless File.exist?("data/#{self.name}.txt") #si existe
+      # FileUtils.touch("./data/#{user_name}.txt")
+      return false
     end
-    puts @portfolio
+    return true
   end
 
+  def show_profit()
+    puts "lets show profit"
+  end
+
+  # def get_data
+  #   @portfolio = {}
+  #   (0..12).each do |month|
+  #     (0..30).each do |day|
+  #       date = "2018-#{month}-#{day}"
+  #       cost = rand(100)
+  #       contrib = rand(100)
+  #       @portfolio[date] = {
+  #         cost: cost,
+  #         price: cost + rand(10),
+  #         margen_gain: contrib - cost, #pasar a porcentaje
+  #         contrib: contrib
+  #       }
+  #     end
+  #   end
+  #   puts @portfolio
+  # end
 end
 
 

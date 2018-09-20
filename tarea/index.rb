@@ -1,15 +1,15 @@
 load 'user.rb'
 load "menu.rb"
 require "fileutils"
-
-
 system "clear"
 
-unless File.file?('data.txt') #si existe
-  puts "no existe"
-  FileUtils.touch("./data.txt")
+unless Dir.exist?("/data") #si existe
+  Dir.mkdir("data")
+  FileUtils.touch("./data/users.txt")
 end
-show_init_menu()
+
+
+Menu.new.show_init_menu()
 
 
 

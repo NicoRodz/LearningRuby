@@ -1,7 +1,19 @@
 require "time"
 
 class User
-  @@name
+  @name
+
+  def create_new_user(name)
+    f = File.new("data/users.txt", 'a')
+    f.write(name + "\n")
+    f.close
+  end
+
+  def see_all_users()
+    f = File.read("data/users.txt", 'r')
+    puts f
+    f.close
+  end
 end
 
 

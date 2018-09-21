@@ -1,6 +1,4 @@
-require "time"
 require "fileutils"
-require "monetize"
 require 'json'
 # puts Time.new(2002, 10, 30)
 
@@ -64,6 +62,7 @@ class Portfolio < User
       # if check_portfolio_exist() then show_portfolio() else puts "Profit don`t exist" end
     f = File.new("data/#{self.name}.txt", 'r')
     data = JSON.parse(f.read)
+    f.close
     first_month = first_date.split("-")[1]
     last_month = last_date.split("-")[1]
     first_value = 0
@@ -76,36 +75,37 @@ class Portfolio < User
       if month_to_see.to_i == first_month.to_i then first_value = investment end
       if month_to_see.to_i == last_month.to_i then last_value = investment end
       if month_to_see.to_i >= first_month.to_i && month_to_see.to_i <= last_month.to_i
-        puts "In month #{month_to_see} have #{investment} capital"
+        puts "In month #{month_to_see}: #{investment}"
       end
     end
     puts ""
     puts "You won in this period $#{last_value - first_value}"
-    puts "In percentaje of grow: #{((last_value * 100) / first_value) - 100}%"
+    puts "In percentaje of growth: #{((last_value * 100) / first_value) - 100}%"
     puts ""
   end
 
   def show_annualized_return()
     f = File.new("data/#{self.name}.txt", 'r')
     data = JSON.parse(f.read)
+    f.close
     first_month = "01"
     last_month = "12"
     first_value = 0
     last_value = 0
     system "clear"
-    puts "-.Portfolio for annualized return.-"
+    puts "-. Annual Performance Portfolio .-"
     puts ""
     data.each do |path, investment|
       month_to_see = path.split("-")[1]
       if month_to_see.to_i == first_month.to_i then first_value = investment end
       if month_to_see.to_i == last_month.to_i then last_value = investment end
       if month_to_see.to_i >= first_month.to_i && month_to_see.to_i <= last_month.to_i
-        puts "In month #{month_to_see} have #{investment} capital"
+        puts "In month #{month_to_see}:  $#{investment}"
       end
     end
     puts ""
-    puts "You won in this period $#{last_value - first_value}"
-    puts "In percentaje of grow: #{((last_value * 100) / first_value) - 100}%"
+    puts "You won in this period    $#{last_value - first_value}"
+    puts "In percentaje of growth:  #{((last_value * 100) / first_value) - 100}%"
     puts ""
   end
 
@@ -119,12 +119,12 @@ class Portfolio < User
   def create_new_portfolio()
     unless File.exist?("data/#{self.name}.txt") #si existe
       FileUtils.touch("./data/#{self.name}.txt")
-      puts "Portfolio for #{self.name} created with fake 'random' data."
+      puts "Portfolio for #{self.name} created with random data."
       set_fake_data()
       sleep(2)
       return true
     end
-    puts "Portfolio Exist... you can see the data in option 1"
+    puts "Portfolio already exist... you can see it in option 1"
     return false
   end
 
@@ -133,7 +133,7 @@ class Portfolio < User
     investment = rand(100000..10000000)
     stock_strategy = ["very conservative", "conservative", "moderate", "risky", "very risky"]
     strategy = stock_strategy[rand(stock_strategy.length)]
-    puts "You Invest #{investment} with #{strategy} strategy...!"
+    puts "You Invest $#{investment} with #{strategy} strategy...!"
     case strategy
     when "very conservative"
       rentability = 0.023

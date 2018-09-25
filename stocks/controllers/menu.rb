@@ -17,13 +17,13 @@ class Menu
     @logs.welcome()
     selection = gets().chomp.to_i
     case selection
-    when 0
-      self.show_stocks(true)
     when 1
-      self.show_stocks(false)
+      self.show_stocks(true)
     when 2
-      @user.log_in()
+      self.show_stocks(false)
     when 3
+      if @user.log_in() then self.handle_user_menu() end
+    when 4
       @user.create_user()
     else
       @logs.wrong_selection()
@@ -38,33 +38,83 @@ class Menu
       when 0
         self.start_app()
       when 1
-        if with_date
-          @stocks[0].price(date: @logs.request_one_date())
-        else
-          @stocks[0].present()
-        end
+        if with_date then @stocks[0].price(date: @logs.request_one_date()) else @stocks[0].present() end
       when 2
-        if with_date
-          @stocks[1].price(date: @logs.request_one_date())
-        else
-          @stocks[1].present()
-        end
+        if with_date then @stocks[1].price(date: @logs.request_one_date()) else @stocks[1].present() end
       when 3
-        if with_date
-          @stocks[2].price(date: @logs.request_one_date())
-        else
-          @stocks[2].present()
-        end
+        if with_date then @stocks[2].price(date: @logs.request_one_date()) else @stocks[2].present() end
       when 4
-        if with_date
-          @stocks[3].price(date: @logs.request_one_date())
-        else
-          @stocks[3].present()
-        end
+        if with_date then @stocks[3].price(date: @logs.request_one_date()) else @stocks[3].present() end
       else
         @logs.wrong_selection()
     end
     self.show_stocks(with_date)
+  end
+
+  def handle_user_menu()
+    @logs.user_menu(@user.username)
+    option = gets().chomp.to_i
+    case option
+      when 0
+        @username = ''
+        self.start_app()
+      when 1
+        self.manage_portfolio_menu()
+      when 2
+        puts 'falta este menu tambien por hader'
+        sleep(2)
+      else
+        @logs.wrong_selection()
+    end
+    self.handle_user_menu()
+  end
+
+  def manage_portfolio_menu()
+    @logs.manage_portfolio_menu_log(@user.username)
+    option = gets().chomp.to_i
+    case option
+      when 0
+        self.handle_user_menu()
+      when 1
+        self.add_stock_to_portfolio_menu()
+      when 2
+        self.remote_stock_from_portfolio_menu()
+      else
+        @logs.wrong_selection()
+        self.manage_portfolio_menu()
+    end
+  end
+
+  def add_stock_to_portfolio_menu()
+    @logs.show_stock_list(false)
+    option = gets().chomp.to_i
+      case option
+        when 0
+          self.manage_portfolio_menu()
+        when 1
+          #agregar
+        when 2
+          #quitar
+        else
+          @logs.wrong_selection()
+          self.add_stock_to_portfolio_menu()
+      end
+  end
+
+  def remote_stock_from_portfolio_menu()
+    @logs.show_stock_list(false)
+    option = gets().chomp.to_i
+      case option
+        when 0
+          self.manage_portfolio_menu()
+        when 1
+          #agregar
+        when 2
+          #quitar
+        else
+          @logs.wrong_selection()
+          self.add_stock_to_portfolio_menu()
+      end
   end
 
 end

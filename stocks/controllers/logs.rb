@@ -8,20 +8,20 @@ class Logs
     self.clean_console()
     puts '#####################################'
     puts '  Welcome to Fintual Stocks Admin system'
-    puts '     0: To see Stock in a specific date'
-    puts '     1: To see Stocks'
-    puts '     2: Log In'
-    puts '     3: Create User'
+    puts '     1: To see Stock in a specific date'
+    puts '     2: To see Stocks'
+    puts '     3: Log In'
+    puts '     4: Create User'
     puts '#####################################'
   end
 
   def user_menu(user_name)
     self.clean_console()
     puts '##############################################'
-    puts "  Welcome to Fintual Stocks menu #{user_name}"
+    puts "  Welcome to Fintual Stocks menu #{user_name.capitalize}"
     puts '     0: To Exit'
-    puts '     1: To make an Portfolio'
-    puts '     2: To see an Portfolio between two dates'
+    puts '     1: To manage a Portfolio'
+    puts '     2: To see a Portfolio between two dates'
     puts '#############################################'
   end
 
@@ -48,6 +48,16 @@ class Logs
     end
     puts ''
     puts 'Press enter to continue...'
+  end
+
+  def manage_portfolio_menu_log(user_name)
+    self.clean_console()
+    puts '#######################################3'
+    puts "        Manage Portfolio #{user_name.capitalize}"
+    puts '     0: To exit'
+    puts '     1: to Add stock to Portfolio'
+    puts '     2: to remove stock from Portfolio'
+    puts '########################################'
   end
 
   def show_price_in_one_date(date, value, stock_name)

@@ -1,6 +1,7 @@
 load './controllers/logs.rb'
 load './controllers/security.rb'
 load './controllers/utils.rb'
+load './controllers/portfolio.rb'
 
 class User
   attr_accessor :username
@@ -9,6 +10,7 @@ class User
     @logs = Logs.new
     @sec = Security.new
     @utils = Utils.new
+    @portfolio = Portfolio.new
     @username
   end
 
@@ -36,29 +38,16 @@ class User
     password = gets().chomp
     password = @sec.md5_pass(password)
     if @utils.check_log_in(user_name, password)
-      self.handle_user_menu(user_name)
+      @username = user_name
+      self.load_portfolio()
+      return true
     else
       @logs.wrong_user_or_pass()
+      return false
     end
   end
 
-  def handle_user_menu(user_name)
-    @username = user_name
-    @logs.user_menu(@username)
-    option = gets().chomp.to_i
-    case option
-      when 0
-        @username = ''
-      when 1
-        puts 'falta este menu por hacer'
-        sleep(2)
-      when 2
-        puts 'falta este menu tambien por hader'
-        sleep(2)
-      else
-        @logs.wrong_selection()
-        handle_user_menu(@username)
-    end
+  def load_portfolio()
   end
 
 end

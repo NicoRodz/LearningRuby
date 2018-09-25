@@ -1,3 +1,5 @@
+require 'fileutils'
+
 class Utils
 
   def correct_date(month, day)
@@ -37,6 +39,7 @@ class Utils
     f = File.new('user/users.txt', 'a')
     f.write(data)
     f.close
+    FileUtils.touch("./user/#{username}.txt")
   end
 
   def get_all_users()

@@ -125,25 +125,27 @@ class Menu
     puts "-------------------------------"
     portfolio_select = gets().chomp.to_i
     case portfolio_select
-    when 0
-      menu_user(user_index)
-    when 1
-      @portfolio.show_annualized_return()
-      puts "Press enter to exit"
-      gets()
-    when 2
-      puts ""
-      puts "Press enter with empty date to see all year"
-      puts ""
-      puts "Enter first date to see: (yyyy-mm)"
-      first_date = gets().chomp.to_s
-      puts "Enter last date to see: (yyyy-mm)"
-      last_date = gets().chomp.to_s
-      @portfolio.see_portfolio(first_date: first_date.to_s, last_date: last_date.to_s)
-      puts "Press enter to exit"
-      gets()
-    else
-      puts "Please enter valid number"
+      when 0
+        menu_user(user_index)
+      when 1
+        @portfolio.show_annualized_return()
+        puts "Press enter to exit"
+        gets()
+        will_see_portfolio(user_index)
+      when 2
+        puts ""
+        puts "Press enter with empty date to see all year"
+        puts ""
+        puts "Enter first date to see: (yyyy-mm)"
+        first_date = gets().chomp.to_s
+        puts "Enter last date to see: (yyyy-mm)"
+        last_date = gets().chomp.to_s
+        @portfolio.see_portfolio(first_date: first_date.to_s, last_date: last_date.to_s)
+        puts "Press enter to exit"
+        gets()
+        will_see_portfolio(user_index)
+      else
+        puts "Please enter valid number"
     end
   end
 

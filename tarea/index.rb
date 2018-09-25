@@ -1,3 +1,12 @@
+=begin
+
+      Nicolás Rodríguez
+      nicolas.jesusrn@gmail.com
+      
+=end
+
+
+
 load 'user.rb'
 load "menu.rb"
 require "fileutils"
@@ -11,12 +20,9 @@ end
 
 Menu.new.show_init_menu()
 
-
-
-
-# File.open('data.txt').each do |line|
-#   puts line
-# end
-
-
 # nico = Portfolio.new
+
+# menu -> divisas
+# mensualmente
+# evaluar una fecha
+# annualized return

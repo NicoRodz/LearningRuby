@@ -70,6 +70,28 @@ class Logs
     puts '#####################################'
   end
 
+  def get_invest_value()
+    puts 'Please enter in US$ how much you want to invest: '
+  end
+
+  def will_invest_in_stock_with_value(name, value)
+    self.clean_console()
+    puts '#####################################'
+    puts ''
+    puts "  You choose #{name}"
+    puts "    to invest $US #{value}"
+    puts ''
+    puts '        0: No'
+    puts '        1: Yes'
+    puts ''
+    puts '#####################################'
+  end
+
+  def see_other_stock()
+    puts 'Don`t worry, let see other stocks'
+    sleep(1.5)
+  end
+
   def create_account_username()
     self.clean_console()
     puts '#####################################'
@@ -112,5 +134,7 @@ class Logs
     puts 'Please enter one date with format: yyyy-mm-dd'
     gets().chomp
   end
+
+
 
 end

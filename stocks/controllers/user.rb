@@ -39,7 +39,7 @@ class User
     password = @sec.md5_pass(password)
     if @utils.check_log_in(user_name, password)
       @username = user_name
-      self.load_portfolio()
+      @portfolio.load_portfolio(user_name)
       return true
     else
       @logs.wrong_user_or_pass()
@@ -47,7 +47,22 @@ class User
     end
   end
 
-  def load_portfolio()
+  def add_new_stock_to_portfolio(name)
+    @logs.get_invest_value()
+    invest = gets().chomp.to_i
+    @logs.will_invest_in_stock_with_value(name, invest)
+    option = gets().chomp.to_i
+    case option
+    when 1
+      @portfolio.add_new_stock(name, invest, @username)
+    else
+      @logs.see_other_stock()
+    end
+  end
+
+  def remove_stock_from_portfolio(name)
+    #get the info
+    @portfolio.remove_stock()
   end
 
 end

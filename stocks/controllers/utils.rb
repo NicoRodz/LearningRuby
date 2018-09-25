@@ -40,6 +40,9 @@ class Utils
     f.write(data)
     f.close
     FileUtils.touch("./user/#{username}.txt")
+    f_u = File.new("./user/#{username}.txt", 'a')
+    f_u.write("{}")
+    f_u.close
   end
 
   def get_all_users()
@@ -97,6 +100,21 @@ class Utils
     month_date = "2018-#{month_to_see}"
     final_data[month_date] = month_value/30
     return final_data
+  end
+
+  def get_user_portfolio(username)
+    f = File.new("user/#{username}.txt", 'r')
+    stocks = f.read
+    f.close
+    return JSON.parse(stocks)
+  end
+
+  def save_new_stock_for_user(stock, invest, username)
+    portfolio = self.get_user_portfolio(username)
+    portfolio[stock] = invest
+    f = File.new("user/#{username}.txt", 'w')
+    f.write(JSON.generate(portfolio))
+    f.close
   end
 
 end

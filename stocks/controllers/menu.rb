@@ -78,7 +78,7 @@ class Menu
       when 1
         self.add_stock_to_portfolio_menu()
       when 2
-        self.remote_stock_from_portfolio_menu()
+        self.remove_stock_from_portfolio_menu()
       else
         @logs.wrong_selection()
         self.manage_portfolio_menu()
@@ -87,33 +87,43 @@ class Menu
 
   def add_stock_to_portfolio_menu()
     @logs.show_stock_list(false)
+    #obtener del usuario los stocks que ya tiene
     option = gets().chomp.to_i
       case option
         when 0
           self.manage_portfolio_menu()
         when 1
-          #agregar
+          @user.add_new_stock_to_portfolio(@stocks[0].STOCK_NAME)
         when 2
-          #quitar
+          @user.add_new_stock_to_portfolio(@stocks[1].STOCK_NAME)
+        when 3
+          @user.add_new_stock_to_portfolio(@stocks[2].STOCK_NAME)
+        when 4
+          @user.add_new_stock_to_portfolio(@stocks[3].STOCK_NAME)
         else
           @logs.wrong_selection()
           self.add_stock_to_portfolio_menu()
       end
   end
 
-  def remote_stock_from_portfolio_menu()
+  def remove_stock_from_portfolio_menu()
     @logs.show_stock_list(false)
+    #obtener del usuario los stocks que ya tiene
     option = gets().chomp.to_i
       case option
         when 0
           self.manage_portfolio_menu()
         when 1
-          #agregar
+          @user.remove_stock_from_portfolio(@stocks[0].STOCK_NAME)
         when 2
-          #quitar
+          @user.remove_stock_from_portfolio(@stocks[1].STOCK_NAME)
+        when 3
+          @user.remove_stock_from_portfolio(@stocks[2].STOCK_NAME)
+        when 4
+          @user.remove_stock_from_portfolio(@stocks[3].STOCK_NAME)
         else
           @logs.wrong_selection()
-          self.add_stock_to_portfolio_menu()
+          self.remove_stock_from_portfolio_menu()
       end
   end
 

@@ -3,7 +3,7 @@ load './controllers/utils.rb'
 
 class Stock
 
-attr_accessor :stock_name
+attr_accessor :STOCK_NAME
 
   def initialize(stock)
     @logs = Logs.new
@@ -22,7 +22,7 @@ attr_accessor :stock_name
       end
     end
     puts 'Date not found, press enter to continue...'
-    gets()        
+    gets()
   end
 
   def present()

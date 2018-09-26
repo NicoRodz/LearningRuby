@@ -5,13 +5,14 @@ load './controllers/portfolio.rb'
 
 class User
   attr_accessor :username
+  attr_accessor :portfolio
 
   def initialize()
     @logs = Logs.new
-    @sec = Security.new
+    @sec = Security.new()
     @utils = Utils.new
     @portfolio = Portfolio.new
-    @username
+    @username = ''
   end
 
   def create_user()
@@ -21,6 +22,7 @@ class User
     if registered_users.include?(user_name)
       @logs.user_exist()
       self.create_user()
+      return false
     end
     if user_name == '' then self.create_user() end
     @logs.create_account_password()
@@ -47,22 +49,50 @@ class User
     end
   end
 
-  def add_new_stock_to_portfolio(name)
+  def add_new_stock_to_portfolio(stock_name)
     @logs.get_invest_value()
     invest = gets().chomp.to_i
-    @logs.will_invest_in_stock_with_value(name, invest)
+    @logs.will_invest_in_stock_with_value(stock_name, invest)
     option = gets().chomp.to_i
     case option
     when 1
-      @portfolio.add_new_stock(name, invest, @username)
+      @portfolio.add_new_stock_for_user(stock_name, invest, @username)
+      @logs.stock_added()
     else
       @logs.see_other_stock()
     end
   end
 
-  def remove_stock_from_portfolio(name)
-    #get the info
-    @portfolio.remove_stock()
+  def remove_stock_from_portfolio(stock_name)
+    @logs.delete_alert(stock_name)
+    option = gets().chomp.to_i
+    case option
+      when 0
+        puts 'ok'
+      when 1
+        @portfolio.remove_stock_for_user(stock_name, @username)
+        @logs.stock_deleted()
+      else
+        @logs.wrong_selection()
+        self.remove_stock_from_portfolio(stock_name)
+    end
+  end
+
+  def show_user_stocks()
+    portfolio_temp = @utils.get_user_portfolio(@username)
+    @logs.show_user_stocks_simple(portfolio_temp.keys)
+    puts ' Press enter to continue...'
+    gets()
+  end
+
+  def portfolio_between_dates()
+    @logs.request_two_dates_for_portfolio()
+    first_date = gets().chomp.to_s
+    @logs.request_second_date()
+    last_date = gets().chomp.to_s
+    if first_date == '' || first_date.count('-') != 2 then first_date = '2018-01-01' end
+    if last_date == '' || last_date.count('-') != 2then last_date = '2018-12-31' end
+    @portfolio.profit(first_date, last_date, @username)
   end
 
 end

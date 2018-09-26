@@ -1,6 +1,11 @@
 require 'fileutils'
+load './controllers/security.rb'
 
 class Utils
+
+  def initialize()
+    @sec = Security.new
+  end
 
   def correct_date(month, day)
     if month < 10
@@ -41,7 +46,7 @@ class Utils
     f.close
     FileUtils.touch("./user/#{username}.txt")
     f_u = File.new("./user/#{username}.txt", 'a')
-    f_u.write("{}")
+    f_u.write(@sec.encrypt("{}"))
     f_u.close
   end
 
@@ -106,15 +111,21 @@ class Utils
     f = File.new("user/#{username}.txt", 'r')
     stocks = f.read
     f.close
-    return JSON.parse(stocks)
+    return JSON.parse(@sec.decrypt(stocks))
   end
 
   def save_new_stock_for_user(stock, invest, username)
     portfolio = self.get_user_portfolio(username)
     portfolio[stock] = invest
+    self.update_user_stock_file(portfolio, username)
+  end
+
+  def update_user_stock_file(portfolio, username)
     f = File.new("user/#{username}.txt", 'w')
-    f.write(JSON.generate(portfolio))
+    to_save = JSON.generate(portfolio)
+    f.write(@sec.encrypt(to_save))
     f.close
   end
+
 
 end

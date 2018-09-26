@@ -2,11 +2,13 @@
 load './controllers/logs.rb'
 load './controllers/user.rb'
 load './controllers/stock.rb'
+load './controllers/utils.rb'
 
 class Menu
   def initialize()
     @logs = Logs.new
     @user = User.new
+    @utils = Utils.new
     @stocks = [ Stock.new('NASDAQ: GOOGL'),
                 Stock.new('NASDAQ: AMZN'),
                 Stock.new('NYSE: JPM'),
@@ -61,8 +63,9 @@ class Menu
       when 1
         self.manage_portfolio_menu()
       when 2
-        puts 'falta este menu tambien por hader'
-        sleep(2)
+        @user.portfolio_between_dates()
+      when 3
+        @user.show_user_stocks()
       else
         @logs.wrong_selection()
     end
@@ -86,8 +89,8 @@ class Menu
   end
 
   def add_stock_to_portfolio_menu()
-    @logs.show_stock_list(false)
-    #obtener del usuario los stocks que ya tiene
+    portfolio = @utils.get_user_portfolio(@user.username)
+    @logs.show_invert_stocks_to_add(portfolio.keys, @stocks)
     option = gets().chomp.to_i
       case option
         when 0
@@ -107,7 +110,8 @@ class Menu
   end
 
   def remove_stock_from_portfolio_menu()
-    @logs.show_stock_list(false)
+    portfolio = @utils.get_user_portfolio(@user.username)
+    @logs.show_user_stocks(portfolio.keys, @stocks)
     #obtener del usuario los stocks que ya tiene
     option = gets().chomp.to_i
       case option

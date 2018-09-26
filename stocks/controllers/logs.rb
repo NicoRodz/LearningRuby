@@ -4,42 +4,49 @@ class Logs
     system 'clear'
   end
 
+  def show_bar()
+    puts '#####################################'
+  end
+
   def welcome()
     self.clean_console()
-    puts '#####################################'
+    self.show_bar()
     puts '  Welcome to Fintual Stocks Admin system'
     puts '     1: To see Stock in a specific date'
     puts '     2: To see Stocks'
     puts '     3: Log In'
     puts '     4: Create User'
-    puts '#####################################'
+    self.show_bar()
   end
 
   def user_menu(user_name)
     self.clean_console()
-    puts '##############################################'
+    self.show_bar()
     puts "  Welcome to Fintual Stocks menu #{user_name.capitalize}"
     puts '     0: To Exit'
     puts '     1: To manage a Portfolio'
     puts '     2: To see a Portfolio between two dates'
-    puts '#############################################'
+    puts '     3: To see your stock list'
+    self.show_bar()
   end
 
   def show_stock_list(with_date)
     self.clean_console()
-    puts '#####################################'
+    self.show_bar()
     if with_date then puts '  Stocks List to see in one date' else puts '            Stocks List' end
+    puts '          Select one...'
+    puts ''
     puts '          0: To exit'
     puts '          1: NASDAQ: GOOGL'
     puts '          2: NASDAQ: AMZN'
     puts '          3: NYSE: JPM'
     puts '          4: NYSE: BRKA'
-    puts '#####################################'
+    self.show_bar()
   end
 
   def show_stock_simple_data(montly_data, stock_name)
     self.clean_console()
-    puts '######################################'
+    self.show_bar()
     puts "Data for Stock: #{stock_name}"
     puts '                              '
     puts '  Date      AVG Month value '
@@ -52,22 +59,22 @@ class Logs
 
   def manage_portfolio_menu_log(user_name)
     self.clean_console()
-    puts '#######################################3'
+    self.show_bar()
     puts "        Manage Portfolio #{user_name.capitalize}"
     puts '     0: To exit'
     puts '     1: to Add stock to Portfolio'
     puts '     2: to remove stock from Portfolio'
-    puts '########################################'
+    self.show_bar()
   end
 
   def show_price_in_one_date(date, value, stock_name)
     self.clean_console()
-    puts '#####################################'
+    self.show_bar()
     puts ''
     puts "  The value for #{stock_name}"
     puts "  in #{date} is US$ #{value}"
     puts ''
-    puts '#####################################'
+    self.show_bar()
   end
 
   def get_invest_value()
@@ -76,7 +83,7 @@ class Logs
 
   def will_invest_in_stock_with_value(name, value)
     self.clean_console()
-    puts '#####################################'
+    self.show_bar()
     puts ''
     puts "  You choose #{name}"
     puts "    to invest $US #{value}"
@@ -84,7 +91,88 @@ class Logs
     puts '        0: No'
     puts '        1: Yes'
     puts ''
-    puts '#####################################'
+    self.show_bar()
+  end
+
+  def delete_alert(stock_name)
+    self.clean_console()
+    self.show_bar()
+    puts ' Are you sure you want to delete'
+    puts "#{stock_name} from your Portfolio?"
+    puts ''
+    puts '          0: No'
+    puts '          1: Yes'
+    puts ''
+    self.show_bar()
+  end
+
+  def show_user_stocks(stocks_user, stocks_list)
+    self.clean_console()
+    self.show_bar()
+    puts '             Your Stocks'
+    puts ''
+    puts '          0: To exit'
+        stocks_list.each_with_index do |stock, index|
+          if stocks_user.include?(stock.STOCK_NAME)
+    puts "          #{index+1}: #{stock.STOCK_NAME}"
+          end
+        end
+    puts ''
+    self.show_bar()
+  end
+
+  def show_user_stocks_simple(stocks_user)
+    self.clean_console()
+    self.show_bar()
+    puts '             Your Stocks'
+    puts ''
+    puts '          0: To exit'
+        stocks_user.each_with_index do |stock, index|
+    puts "          #{index+1}: #{stock}"
+        end
+    puts ''
+    self.show_bar()
+  end
+
+  def show_invert_stocks_to_add(stocks_user, stocks_list)
+    self.clean_console()
+    self.show_bar()
+    puts '    Stocks that you can add '
+    puts '      0: to exit'
+    stocks_list.each_with_index do |stock, index|
+      unless stocks_user.include?(stock.STOCK_NAME)
+    puts "      #{index+1}: #{stock.STOCK_NAME}"
+      end
+    end
+    puts ''
+    self.show_bar()
+  end
+
+  def request_two_dates_for_portfolio()
+    self.clean_console()
+    self.show_bar()
+    puts '    Insert a range of'
+    puts '  dates to see Portfolio '
+    puts ''
+    puts '  if you want, you can leave date in blank'
+    puts '  to get the first day or last day of the year'
+    puts ''
+    puts '  First Date: '
+  end
+
+  def request_second_date()
+    puts ''
+    puts '  Last Date: '
+  end
+
+  def stock_deleted()
+    puts 'Stock deleted...'
+    sleep(1.5)
+  end
+
+  def stock_added()
+    puts 'Stock added...'
+    sleep(1.5)
   end
 
   def see_other_stock()
@@ -94,7 +182,7 @@ class Logs
 
   def create_account_username()
     self.clean_console()
-    puts '#####################################'
+    self.show_bar()
     puts 'Enter your new username: '
   end
 

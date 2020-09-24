@@ -160,6 +160,34 @@ class Logs
     puts '  First Date: '
   end
 
+  def header_profit_portfolio(first_date, last_date)
+    self.clean_console()
+    self.show_bar()
+    puts '      Portfolio Profit    '
+    puts "    First date: #{first_date}"
+    puts "    Last date: #{last_date}"
+    puts ''
+  end
+
+  def stock_profit_portfolio(stock_name, stock_profit, initial_value_user, annualized_return)
+    puts '  - - - - - - - - - - - - - - - - - - - - - - -'
+    puts "    Stock Name          : #{stock_name}"
+    puts "    User initial Invest : #{initial_value_user}"
+    puts "    Stock Profit        : #{stock_profit}"
+    puts "    Annualized Return   : #{annualized_return}"
+    puts '  - - - - - - - - - - - - - - - - - - - - - - -'
+  end
+
+  def final_total_profit_and_annualized(profit_portfolio, annualized_value)
+    puts ''
+    puts '    Total Portfolio profit    '
+    puts ''
+    puts "  Profit            : #{profit_portfolio}"
+    puts "  Annualized value  : #{annualized_value}"
+    puts ''
+    puts 'Press enter to continue...'
+  end
+
   def request_second_date()
     puts ''
     puts '  Last Date: '
